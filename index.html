@@ -5,31 +5,136 @@
 <title>Démo POV VR - HUD conducteur (maquette)</title>
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <style>
-  body { margin: 0; font-family: sans-serif; }
-  #banner {
-    position: fixed; top: 10px; left: 10px; right: 10px;
-    background: rgba(0,0,0,.75); color: #fff;
-    padding: 10px 16px; border-radius: 8px; font-size: 13px; z-index: 999;
-    text-align: center;
+  body{margin:0;font-family:sans-serif}
+  #banner{
+    position:fixed;top:10px;left:10px;right:10px;
+    background:rgba(0,0,0,.75);color:#fff;
+    padding:10px 16px;border-radius:8px;font-size:13px;z-index:999;
+    text-align:center;
   }
 </style>
+</head>
+<body>
+
+<div id="banner">🎬 Démo visuelle / maquette — non conçue pour être utilisée en conduisant</div>
+
+<a-scene fog="type: exponential; color: #a9d6f0; density: 0.035">
+
+  <a-assets>
+    <a-mixin id="hudpanel" material="color:#0B131A; opacity:0.55; shader:flat; side:double"></a-mixin>
+    <img id="dangerGradL" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='0%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
+    <img id="dangerGradR" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='100%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
+  </a-assets>
+
+  <a-sky id="sky" color="#8FD3F4"></a-sky>
+
+  <a-entity id="sun-rig">
+    <a-sphere id="sun" radius="5" position="0 30 -140"
+      material="shader:flat; color:#fff6dc; emissive:#fff6dc; emissiveIntensity:1"></a-sphere>
+    <a-sphere id="sun-halo" radius="8" position="0 30 -140"
+      material="shader:flat; color:#fff2c9; opacity:0.25; side:back"></a-sphere>
+  </a-entity>
+
+  <a-light id="ambient-light" type="ambient" color="#cfe6ff" intensity="0.9"></a-light>
+  <a-light id="sun-light" type="directional" color="#ffffff" intensity="1.1" position="-3 6 2"></a-light>
+
+  <a-entity id="road-rig" position="0 0 0">
+    <a-plane rotation="-90 0 0" width="14" height="400" position="0 0 -190"
+      material="color:#33383d; shader:flat"></a-plane>
+    <a-plane rotation="-90 0 0" width="40" height="400" position="-27 -0.02 -190"
+      material="color:#3f7a44; shader:flat"></a-plane>
+    <a-plane rotation="-90 0 0" width="40" height="400" position="27 -0.02 -190"
+      material="color:#3f7a44; shader:flat"></a-plane>
+    <a-entity id="lane-lines"></a-entity>
+    <a-entity id="scenery"></a-entity>
+    <a-entity id="forest"></a-entity>
+
+    <a-entity id="ev-car" position="0.6 0 -16">
+      <a-box width="1.85" height="0.32" depth="4.55" position="0 0.28 0"
+        material="shader:standard; color:#0e0e10; roughness:0.9"></a-box>
+      <a-box width="1.9" height="0.55" depth="4.3" position="0 0.62 0"
+        material="shader:standard; color:#C9CDD3; metalness:0.75; roughness:0.18"></a-box>
+      <a-box width="1.75" height="0.28" depth="1.1" position="0 0.55 1.75" rotation="6 0 0"
+        material="shader:standard; color:#C9CDD3; metalness:0.75; roughness:0.18"></a-box>
+      <a-box width="1.75" height="0.26" depth="1.0" position="0 0.55 -1.7" rotation="-8 0 0"
+        material="shader:standard; color:#C9CDD3; metalness:0.75; roughness:0.18"></a-box>
+      <a-box width="1.55" height="0.45" depth="2.3" position="0 0.98 -0.1"
+        material="shader:standard; color:#0a0d10; metalness:0.3; roughness:0.05; opacity:0.85"></a-box>
+      <a-box width="1.5" height="0.2" depth="0.5" position="0 1.15 0.95" rotation="22 0 0"
+        material="shader:standard; color:#0a0d10; metalness:0.3; roughness:0.05; opacity:0.9"></a-box>
+      <a-box width="1.5" height="0.2" depth="0.55" position="0 1.1 -1.2" rotation="-20 0 0"
+        material="shader:standard; color:#0a0d10; metalness:0.3; roughness:0.05; opacity:0.9"></a-box>
+      <a-box width="1.7" height="0.05" depth="0.03" position="0 0.42 2.28"
+        material="shader:flat; color:#eaf4ff; emissive:#eaf4ff; emissiveIntensity:0.9"></a-box>
+      <a-box id="ev-taillight" width="1.7" height="0.06" depth="0.03" position="0 0.42 -2.28"
+        material="shader:flat; color:#FF2A2A; emissive:#FF2A2A; emissiveIntensity:1"></a-box>
+      <a-entity position="0.98 0.34 1.45">
+        <a-cylinder radius="0.34" height="0.22" rotation="0 0 90"
+          material="shader:standard; color:#0a0a0a; roughness:0.7"></a-cylinder>
+        <a-cylinder radius="0.17" height="0.24" rotation="0 0 90"
+          material="shader:standard; color:#b8bcc2; metalness:0.9; roughness:0.15"></a-cylinder>
+      </a-entity>
+      <a-entity position="-0.98 0.34 1.45">
+        <a-cylinder radius="0.34" height="0.22" rotation="0 0 90"
+          material="shader:standard; color:#0a0a0a; roughness:0.7"></a-cylinder>
+        <a-cylinder radius="0.17" height="0.24" rotation="0 0 90"
+          material="shader:standard; color:#b8bcc2; metalness:0.9; roughness:0.15"></a-cylinder>
+      </a-entity>
+      <a-entity position="0.98 0.34 -1.45">
+        <a-cylinder radius="0.34" height="0.22" rotation="0 0 90"
+          material="shader:standard; color:#0a0a0a; roughness:0.7"></a-cylinder>
+        <a-cylinder radius="0.17" height="0.24" rotation="0 0 90"
+          material="shader:standard; color:#b8bcc2; metalness:0.9; roughness:0.15"></a-cylinder>
+      </a-entity>
+      <a-entity position="-0.98 0.34 -1.45">
+        <a-cylinder radius="0.34" height="0.22" rotation="0 0 90"
+          material="shader:standard; color:#0a0a0a; roughness:0.7"></a-cylinder>
+        <a-cylinder radius="0.17" height="0.24" rotation="0 0 90"
+          material="shader:standard; color:#b8bcc2; metalness:0.9; roughness:0.15"></a-cylinder>
+      </a-entity>
+      <a-circle radius="1.1" rotation="-90 0 0" position="0 0.03 0"
+        material="shader:flat; color:#3FE0CE; opacity:0.12"></a-circle>
+    </a-entity>
+  </a-entity>
+
+  <a-entity camera look-controls wasd-controls position="0 1.6 0">
+    <a-entity position="-0.55 -0.35 -1" rotation="0 12 0">
+      <a-circle radius="0.16" mixin="hudpanel"></a-circle>
+      <a-circle radius="0.16" material="color:#FF3B30; shader:flat; opacity:0.9" side="double"
+        geometry="primitive:ring; radiusInner:0.145; radiusOuter:0.16"></a-circle>
+      <a-text value="102" align="center" color="#FF9D2E" width="1.4" position="0 0.01 0.01"></a-text>
+      <a-text value="km/h" align="center" color="#ffffff" width="0.9" position="0 -0.06 0.01"></a-text>
+    </a-entity>
+    <a-entity position="-0.32 -0.28 -1">
+      <a-circle radius="0.055" material="color:#ffffff; shader:flat"></a-circle>
+      <a-circle radius="0.055" material="color:#FF3B30; shader:flat" side="double"
+        geometry="primitive:ring; radiusInner:0.048; radiusOuter:0.055"></a-circle>
+      <a-text value="100" align="center" color="#C0271F" width="1.1" position="0 0 0.01"></a-text>
+    </a-entity>
+    <a-entity position="0 0.45 -1">
+      <a-plane width="0.5" height="0.13" mixin="hudpanel"></a-plane>
+      <a-text value="^ 2 km" align="center" color="#3FE0CE" width="1.3" position="0 0 0.01"></a-text>
+    </a-entity>
+    <a-entity id="radar" position="0.55 -0.35 -1" rotation="0 -12 0">
+      <a-circle radius="0.18" material="color:#0B131A; opacity:0.6; shader:flat"></a-circle>
+      <a-circle id="radar-sweep" radius="0.17"
+        material="color:#3FE0CE; opacity:0.25; shader:flat"
+        geometry="primitive:circle; radius:0.17; thetaLength:70"></a-circle>
+      <a-circle radius="0.17" material="color:#233140; shader:flat" side="double"
+        geometry="primitive:ring; radiusInner:0.165; radiusOuter:0.17"></a-circle>
+      <a-circle radius="0.012" color="#FF3B30" position="0.09 0.06 0.01"></a-circle>
+      <a-circle radius="0.011" color="#F2B33A" position="-0.05 -0.08 0.01"></a-circle>
+      <a-circle radius="0.008" color="#9FB0BE" position="0.01 0.1 0.01"></a-circle>
+      <a-text value="3 detectes" align="center" color="#3FE0CE" width="1" position="0 -0.22 0.01"></a-text>
+    </a-entity>
+    <a-entity position="-0.7 0.48 -1">
+      <a-circle id="rec-dot" radius="0.018" color="#FF3B30"></a-circle>
+    </a-entity>
+  </a-entity>
+
+</a-scene>
 
 <script>
-  // Fonctions utilitaires
-  function hexToRgb(hex) {
-    const v = parseInt(hex.replace('#', ''), 16);
-    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
-  }
-  
-  function lerpColor(hexA, hexB, t) {
-    const a = hexToRgb(hexA), b = hexToRgb(hexB);
-    const r = Math.round(a[0] + (b[0] - a[0]) * t);
-    const g = Math.round(a[1] + (b[1] - a[1]) * t);
-    const bl = Math.round(a[2] + (b[2] - a[2]) * t);
-    return `rgb(${r},${g},${bl})`;
-  }
-
-  // 1. Composant : Défilement de la route
   AFRAME.registerComponent('scroll-road', {
     init: function () {
       this.speed = 6;
@@ -64,7 +169,6 @@
       this.trees = [];
       const forestContainer = document.querySelector('#forest');
       const rowsPerSide = 45;
-      
       for (let i = 0; i < rowsPerSide; i++) {
         [-1, 1].forEach(side => {
           const baseX = side * (9 + Math.random() * 10);
@@ -82,7 +186,8 @@
           trunk.setAttribute('radius-top', 0.09);
           trunk.setAttribute('height', trunkH);
           trunk.setAttribute('position', `0 ${trunkH / 2} 0`);
-          trunk.setAttribute('material', `shader:standard; color:rgb(${barkShade+30},${barkShade+18},${barkShade}); roughness:0.95`);
+          trunk.setAttribute('material',
+            `shader:standard; color:rgb(${barkShade+30},${barkShade+18},${barkShade}); roughness:0.95`);
           tree.appendChild(trunk);
 
           for (let b = 0; b < 2; b++) {
@@ -108,7 +213,8 @@
             foliage.setAttribute('height', layerH);
             foliage.setAttribute('position', `0 ${yBase + layerH/2} 0`);
             const shade = green - l * 12;
-            foliage.setAttribute('material', `shader:standard; color:rgb(18,${shade},32); roughness:0.9`);
+            foliage.setAttribute('material',
+              `shader:standard; color:rgb(18,${shade},32); roughness:0.9`);
             tree.appendChild(foliage);
           }
 
@@ -119,20 +225,17 @@
     },
     tick: function (time, delta) {
       const dz = (this.speed * delta) / 1000;
-      
       this.lines.forEach(line => {
         let z = parseFloat(line.getAttribute('position').z) + dz;
         if (z > 5) z -= 200;
         line.setAttribute('position', `0 0.01 ${z}`);
       });
-      
       this.scenery.forEach(pole => {
         let pos = pole.getAttribute('position');
         let z = pos.z + dz;
         if (z > 5) z -= 400;
         pole.setAttribute('position', `${pos.x} ${pos.y} ${z}`);
       });
-      
       this.trees.forEach(tree => {
         let pos = tree.getAttribute('position');
         let z = pos.z + dz;
@@ -141,57 +244,80 @@
       });
     }
   });
+  document.querySelector('a-scene').setAttribute('scroll-road', '');
 
-  // 2. Composant : Cycle Jour/Nuit (réécrit pour cibler les éléments après l'init)
+  function hexToRgb(hex) {
+    const v = parseInt(hex.replace('#', ''), 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  }
+  function lerpColor(hexA, hexB, t) {
+    const a = hexToRgb(hexA), b = hexToRgb(hexB);
+    const r = Math.round(a[0] + (b[0] - a[0]) * t);
+    const g = Math.round(a[1] + (b[1] - a[1]) * t);
+    const bl = Math.round(a[2] + (b[2] - a[2]) * t);
+    return `rgb(${r},${g},${bl})`;
+  }
+
+  const dayCycle = {
+    cycleLength: 45,
+    sunsetWidth: 0.09,
+    skyDay: '#8FD3F4',
+    skySunset: '#FF8A4C',
+    fogDay: '#a9d6f0',
+    fogSunset: '#ffb37a',
+    ambientDay: '#cfe6ff',
+    ambientSunset: '#ffb98a',
+    sunColorDay: '#ffffff',
+    sunColorSunset: '#ff7a3d'
+  };
+
+  const sky = document.querySelector('#sky');
+  const scene = document.querySelector('a-scene');
+  const ambientLight = document.querySelector('#ambient-light');
+  const sunLight = document.querySelector('#sun-light');
+  const sun = document.querySelector('#sun');
+  const sunHalo = document.querySelector('#sun-halo');
+
+  function updateDayCycle(time) {
+    const phase = (time / 1000 % dayCycle.cycleLength) / dayCycle.cycleLength;
+    const dist = phase - 0.5;
+    const sunsetFactor = Math.exp(-(dist * dist) / (2 * dayCycle.sunsetWidth * dayCycle.sunsetWidth));
+
+    sky.setAttribute('material', 'color', lerpColor(dayCycle.skyDay, dayCycle.skySunset, sunsetFactor));
+    scene.setAttribute('fog', 'color', lerpColor(dayCycle.fogDay, dayCycle.fogSunset, sunsetFactor));
+
+    ambientLight.setAttribute('color', lerpColor(dayCycle.ambientDay, dayCycle.ambientSunset, sunsetFactor));
+    ambientLight.setAttribute('intensity', 0.9 - sunsetFactor * 0.35);
+    sunLight.setAttribute('color', lerpColor(dayCycle.sunColorDay, dayCycle.sunColorSunset, sunsetFactor));
+    sunLight.setAttribute('intensity', 1.1 - sunsetFactor * 0.4);
+
+    const elevation = 15 + (1 - sunsetFactor) * 45;
+    sun.setAttribute('position', `0 ${elevation} -140`);
+    sunHalo.setAttribute('position', `0 ${elevation} -140`);
+    const sunTint = lerpColor('#fff6dc', '#ff5a2e', sunsetFactor);
+    sun.setAttribute('material', 'color', sunTint);
+    sun.setAttribute('material', 'emissive', sunTint);
+    sunLight.setAttribute('position', `0 ${elevation * 0.2} -1`);
+  }
+
   AFRAME.registerComponent('day-cycle-driver', {
-    init: function () {
-      this.dayCycle = {
-        cycleLength: 45, sunsetWidth: 0.09,
-        skyDay: '#8FD3F4', skySunset: '#FF8A4C',
-        fogDay: '#a9d6f0', fogSunset: '#ffb37a',
-        ambientDay: '#cfe6ff', ambientSunset: '#ffb98a',
-        sunColorDay: '#ffffff', sunColorSunset: '#ff7a3d'
-      };
-      // Récupération des éléments une fois qu'ils existent
-      this.sky = document.querySelector('#sky');
-      this.ambientLight = document.querySelector('#ambient-light');
-      this.sunLight = document.querySelector('#sun-light');
-      this.sun = document.querySelector('#sun');
-      this.sunHalo = document.querySelector('#sun-halo');
-    },
-    tick: function (time) { 
-      const phase = (time / 1000 % this.dayCycle.cycleLength) / this.dayCycle.cycleLength;
-      const dist = phase - 0.5;
-      const sunsetFactor = Math.exp(-(dist * dist) / (2 * this.dayCycle.sunsetWidth * this.dayCycle.sunsetWidth));
-
-      this.sky.setAttribute('material', 'color', lerpColor(this.dayCycle.skyDay, this.dayCycle.skySunset, sunsetFactor));
-      this.el.setAttribute('fog', 'color', lerpColor(this.dayCycle.fogDay, this.dayCycle.fogSunset, sunsetFactor));
-
-      this.ambientLight.setAttribute('color', lerpColor(this.dayCycle.ambientDay, this.dayCycle.ambientSunset, sunsetFactor));
-      this.ambientLight.setAttribute('intensity', 0.9 - sunsetFactor * 0.35);
-      
-      this.sunLight.setAttribute('color', lerpColor(this.dayCycle.sunColorDay, this.dayCycle.sunColorSunset, sunsetFactor));
-      this.sunLight.setAttribute('intensity', 1.1 - sunsetFactor * 0.4);
-
-      const elevation = 15 + (1 - sunsetFactor) * 45;
-      this.sun.setAttribute('position', `0 ${elevation} -140`);
-      this.sunHalo.setAttribute('position', `0 ${elevation} -140`);
-      
-      const sunTint = lerpColor('#fff6dc', '#ff5a2e', sunsetFactor);
-      this.sun.setAttribute('material', 'color', sunTint);
-      this.sun.setAttribute('material', 'emissive', sunTint);
-      this.sunLight.setAttribute('position', `0 ${elevation * 0.2} -1`);
-    }
+    tick: function (time) { updateDayCycle(time); }
   });
+  scene.setAttribute('day-cycle-driver', '');
 
-  // 3. Composant : Rotation du radar
   AFRAME.registerComponent('radar-spin', {
     tick: function (time) {
       this.el.setAttribute('rotation', `0 0 ${-(time / 8) % 360}`);
     }
   });
+  document.querySelector('#radar-sweep').setAttribute('radar-spin', '');
 
-  // 4. Composant : Mouvement de la voiture devant
+  let recVisible = true;
+  setInterval(() => {
+    recVisible = !recVisible;
+    document.querySelector('#rec-dot').setAttribute('visible', recVisible);
+  }, 650);
+
   AFRAME.registerComponent('ev-drive', {
     init: function () {
       this.baseZ = -16;
@@ -202,51 +328,19 @@
       const sway = Math.sin(t * 0.9) * 0.1;
       const bob = Math.sin(t * 4) * 0.012;
       const distanceDrift = Math.sin(t * 0.22) * 3;
-      this.el.setAttribute('position', `${this.baseX + sway} ${bob} ${this.baseZ + distanceDrift}`);
+      this.el.setAttribute('position',
+        `${this.baseX + sway} ${bob} ${this.baseZ + distanceDrift}`);
       this.el.setAttribute('rotation', `0 ${sway * 5} 0`);
     }
   });
+  document.querySelector('#ev-car').setAttribute('ev-drive', '');
 
-  // 5. Composant : Clignotement générique (utilisé pour le HUD et les phares)
-  AFRAME.registerComponent('blinker', {
-    schema: { speed: {type: 'number', default: 650} },
-    init: function() {
-      this.visible = true;
-      this.timer = setInterval(() => {
-        this.visible = !this.visible;
-        this.el.setAttribute('visible', this.visible);
-      }, this.data.speed);
-    },
-    remove: function() { clearInterval(this.timer); }
-  });
-
-  // 6. Composant : Scintillement des feux arrière
-  AFRAME.registerComponent('taillight-flicker', {
-    init: function() {
-      this.timer = setInterval(() => {
-        const cur = this.el.getAttribute('material').emissiveIntensity;
-        this.el.setAttribute('material', 'emissiveIntensity', cur > 0.4 ? 0.3 : 1);
-      }, 550);
-    },
-    remove: function() { clearInterval(this.timer); }
-  });
+  setInterval(() => {
+    const light = document.querySelector('#ev-taillight');
+    const cur = light.getAttribute('material').emissiveIntensity;
+    light.setAttribute('material', 'emissiveIntensity', cur > 0.4 ? 0.3 : 1);
+  }, 550);
 </script>
-</head>
-<body>
 
-<div id="banner">🎬 Démo visuelle / maquette — non conçue pour être utilisée en conduisant</div>
-
-<a-scene scroll-road day-cycle-driver fog="type: exponential; color: #a9d6f0; density: 0.035">
-
-  <a-assets>
-    <a-mixin id="hudpanel" material="color:#0B131A; opacity:0.55; shader:flat; side:double"></a-mixin>
-    <img id="dangerGradL" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='0%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
-    <img id="dangerGradR" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='100%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
-  </a-assets>
-
-  <a-sky id="sky" color="#8FD3F4"></a-sky>
-
-  <a-entity id="sun-rig">
-    <a-sphere id="sun" radius="5" position="0 30 -140"
-      material="shader:flat; color:#fff6dc; emissive:#fff6dc; emissiveIntensity:1"></a-sphere>
-    <a-sphere id="sun-halo" radius="8" position
+</body>
+</html>
