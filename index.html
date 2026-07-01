@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>HUD Moto AR - Réalité Augmentée</title>
+  <title>HUD AR Direct</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
@@ -13,39 +13,20 @@
     webxr="optionalFeatures: hit-test, local-floor, passthrough">
 
     <a-entity camera look-controls position="0 1.6 0">
-      <a-entity laser-controls="hand: right" raycaster="objects: .clickable; showLine: true"></a-entity>
-      <a-cursor raycaster="objects: .clickable" color="#ffffff" fuse="false"></a-cursor>
     </a-entity>
 
     <a-entity position="0 1.5 -0.8">
       
       <a-plane width="1.2" height="0.6" 
-               material="color: #000; opacity: 0.4; shader: flat; transparent: true">
+               material="color: #000; opacity: 0.3; shader: flat; transparent: true">
       </a-plane>
       
       <a-text value="VITESSE: 116 km/h" align="center" color="#ffffff" position="0 0.15 0.02" width="2"></a-text>
       <a-text value="ETAT: CONNECTE" align="center" color="#3FE0CE" position="0 -0.1 0.02" width="2"></a-text>
 
-      <a-entity id="btn-action" class="clickable" position="0 -0.3 0.02">
-        <a-plane width="0.5" height="0.15" color="#3a86ff" opacity="0.9"></a-plane>
-        <a-text value="DEMARRER" align="center" color="white" position="0 0 0.01" width="1.2"></a-text>
-      </a-entity>
+      <a-ring radius-inner="0.03" radius-outer="0.04" color="#3FE0CE" position="0 -0.3 0.02"></a-ring>
     </a-entity>
 
   </a-scene>
-
-  <script>
-    // Animation au clic
-    document.querySelector('#btn-action').addEventListener('click', function() {
-      const plane = this.querySelector('a-plane');
-      plane.setAttribute('color', '#2ecc71');
-      console.log("Interface démarrée !");
-      
-      // Retour à la couleur initiale après 500ms
-      setTimeout(() => {
-        plane.setAttribute('color', '#3a86ff');
-      }, 500);
-    });
-  </script>
 </body>
 </html>
