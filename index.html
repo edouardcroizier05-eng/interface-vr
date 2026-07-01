@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>HUD AR Direct</title>
+  <title>HUD Moto AR - Réalité Augmentée</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
@@ -12,19 +12,27 @@
     renderer="colorManagement: true; alpha: true"
     webxr="optionalFeatures: hit-test, local-floor, passthrough">
 
-    <a-entity camera look-controls position="0 1.6 0">
-    </a-entity>
+    <a-entity camera look-controls position="0 1.6 0"></a-entity>
 
     <a-entity position="0 1.5 -0.8">
       
-      <a-plane width="1.2" height="0.6" 
-               material="color: #000; opacity: 0.3; shader: flat; transparent: true">
+      <a-plane width="1.4" height="0.7" 
+               material="color: #000; opacity: 0.2; shader: flat; transparent: true">
       </a-plane>
       
-      <a-text value="VITESSE: 116 km/h" align="center" color="#ffffff" position="0 0.15 0.02" width="2"></a-text>
-      <a-text value="ETAT: CONNECTE" align="center" color="#3FE0CE" position="0 -0.1 0.02" width="2"></a-text>
+      <a-text value="116 KM/H" align="center" color="#ffffff" position="0 0.2 0.02" width="4"></a-text>
 
-      <a-ring radius-inner="0.03" radius-outer="0.04" color="#3FE0CE" position="0 -0.3 0.02"></a-ring>
+      <a-entity position="-0.4 -0.1 0.02">
+        <a-text value="RADAR:" align="center" color="#ff477e" position="0 0.05 0" width="1.5"></a-text>
+        <a-text value="AUCUN" align="center" color="#aaaaaa" position="0 -0.05 0" width="1.2"></a-text>
+      </a-entity>
+
+      <a-entity position="0.4 -0.1 0.02">
+        <a-text value="GPS:" align="center" color="#3FE0CE" position="0 0.05 0" width="1.5"></a-text>
+        <a-text value="TOUT DROIT" align="center" color="#ffffff" position="0 -0.05 0" width="1.2"></a-text>
+      </a-entity>
+
+      <a-plane width="1.2" height="0.01" color="#3FE0CE" position="0 -0.25 0.02"></a-plane>
     </a-entity>
 
   </a-scene>
