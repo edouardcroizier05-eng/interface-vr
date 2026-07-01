@@ -2,47 +2,43 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>HUD Transparence VR</title>
+  <title>HUD Réalité Augmentée Quest 2</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
 
-  <a-scene background="transparent: true" renderer="antialias: true; alpha: true;">
+  <a-scene 
+    background="transparent: true" 
+    renderer="colorManagement: true; alpha: true"
+    webxr="optionalFeatures: hit-test, local-floor, passthrough">
 
-    <a-entity camera look-controls wasd-controls position="0 1.6 0">
+    <a-entity camera look-controls position="0 1.6 0">
       
-      <a-entity position="0 0 -1.5">
-        <a-plane width="2.0" height="1.2" 
+      <a-entity position="0 0 -0.8">
+        
+        <a-plane width="1.2" height="0.6" 
                  material="color: #000; opacity: 0.3; shader: flat; transparent: true">
         </a-plane>
         
-        <a-text value="INTERFACE HUD" align="center" color="#3FE0CE" position="0 0.4 0.01" width="3"></a-text>
-        <a-text value="Mode Transparence Actif" align="center" color="#ffffff" position="0 0.2 0.01" width="2"></a-text>
+        <a-text value="VITESSE: 0 km/h" align="center" color="#ffffff" position="0 0.15 0.01" width="1.5"></a-text>
+        <a-text value="ETAT: CONNECTE" align="center" color="#3FE0CE" position="0 -0.1 0.01" width="1.5"></a-text>
 
-        <a-entity id="btn1" position="-0.5 -0.3 0.01">
-          <a-plane width="0.8" height="0.25" color="#3a86ff" opacity="0.7" class="clickable"></a-plane>
-          <a-text value="Bouton A" align="center" color="white" position="0 0 0.01" width="1.5"></a-text>
-        </a-entity>
-
-        <a-entity id="btn2" position="0.5 -0.3 0.01">
-          <a-plane width="0.8" height="0.25" color="#ff477e" opacity="0.7" class="clickable"></a-plane>
-          <a-text value="Bouton B" align="center" color="white" position="0 0 0.01" width="1.5"></a-text>
+        <a-entity id="btn-action" class="clickable" position="0 -0.3 0.01">
+          <a-plane width="0.4" height="0.12" color="#3a86ff" opacity="0.8"></a-plane>
+          <a-text value="DEMARRER" align="center" color="white" position="0 0 0.01" width="0.8"></a-text>
         </a-entity>
       </a-entity>
 
-      <a-cursor raycaster="objects: .clickable" color="#ffffff"></a-cursor>
+      <a-cursor raycaster="objects: .clickable" color="#ffffff" fuse="false"></a-cursor>
     </a-entity>
 
   </a-scene>
 
   <script>
-    document.querySelectorAll('.clickable').forEach(el => {
-      el.addEventListener('click', () => {
-        el.setAttribute('color', '#2ecc71');
-        setTimeout(() => {
-          el.setAttribute('color', el.parentElement.id === 'btn1' ? '#3a86ff' : '#ff477e');
-        }, 400);
-      });
+    // Animation simple pour le bouton
+    document.querySelector('#btn-action').addEventListener('click', function() {
+      this.querySelector('a-plane').setAttribute('color', '#2ecc71');
+      console.log("Interface démarrée !");
     });
   </script>
 </body>
