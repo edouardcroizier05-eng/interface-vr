@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Interface VR - Démo</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #instructions {
+      position: fixed;
+      top: 10px; left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="instructions">
+    👉 Clique sur "Enter VR" en bas à droite une fois dans le casque
+  </div>
+
+  <a-scene background="color: #0d0d12">
+
+    <!-- Ciel / ambiance -->
+    <a-sky color="#111318"></a-sky>
+
+    <!-- Sol léger pour se repérer dans l'espace -->
+    <a-plane rotation="-90 0 0" width="20" height="20" color="#1a1a22" opacity="0.6"></a-plane>
+
+    <!-- ===================== -->
+    <!-- PANNEAU "INTERFACE"  -->
+    <!-- ===================== -->
+    <a-entity position="0 1.6 -2">
+
+      <!-- Fond du panneau -->
+      <a-plane width="2.4" height="1.5" color="#1e1e28" material="opacity: 0.95; shader: flat"></a-plane>
+
+      <!-- Titre -->
+      <a-text value="MON INTERFACE" align="center" color="#ffffff"
+              position="0 0.6 0.01" width="3" font="dejavu"></a-text>
+
+      <!-- Zone de "texte" simulée -->
+      <a-text value="Ceci est un exemple de contenu.\nTu remplaceras ce bloc par ta vraie interface."
+              align="center" color="#aaaaaa" position="0 0.3 0.01" width="2.6"></a-text>
+
+      <!-- BOUTON 1 -->
+      <a-entity id="btn1" position="-0.6 -0.3 0.01">
+        <a-plane width="1" height="0.35" color="#3a86ff" class="clickable"></a-plane>
+        <a-text value="Bouton A" align="center" color="white" position="0 0 0.01" width="2"></a-text>
+      </a-entity>
+
+      <!-- BOUTON 2 -->
+      <a-entity id="btn2" position="0.6 -0.3 0.01">
+        <a-plane width="1" height="0.35" color="#ff477e" class="clickable"></a-plane>
+        <a-text value="Bouton B" align="center" color="white" position="0 0 0.01" width="2"></a-text>
+      </a-entity>
+
+    </a-entity>
+
+    <!-- ===================== -->
+    <!-- CAMÉRA + VISEUR       -->
+    <!-- ===================== -->
+    <a-entity camera look-controls wasd-controls position="0 1.6 0">
+      <a-cursor
+        fuse="false"
+        raycaster="objects: .clickable"
+        color="#ffffff">
+      </a-cursor>
+    </a-entity>
+
+  </a-scene>
+
+  <script>
+    // Petite interaction : au clic (souris, gâchette manette, ou regard+bouton),
+    // le bouton change de couleur pour prouver que ça réagit.
+    document.querySelectorAll('.clickable').forEach(el => {
+      el.addEventListener('click', () => {
+        el.setAttribute('color', '#2ecc71');
+        setTimeout(() => {
+          el.setAttribute('color', el.parentElement.id === 'btn1' ? '#3a86ff' : '#ff477e');
+        }, 400);
+      });
+    });
+  </script>
+
+</body>
+</html>
