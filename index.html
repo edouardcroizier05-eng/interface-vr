@@ -2,51 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>HUD Moto AR - Style Épuré</title>
+  <title>HUD Moto AR - Mode Pause</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
 
-  <!-- 
-    Scène configurée pour le Passthrough (réalité augmentée)
-    renderer alpha: true permet la transparence.
-  -->
   <a-scene 
     background="transparent: true" 
     renderer="colorManagement: true; alpha: true"
     webxr="optionalFeatures: hit-test, local-floor, passthrough">
 
-    <!-- Caméra ancrée -->
-    <a-entity camera look-controls position="0 1.6 0"></a-entity>
+    <a-entity camera look-controls position="0 1.6 0">
+      
+      <a-entity position="0 0 -0.8">
+        
+        <a-plane width="1.4" height="0.6" 
+                 material="color: #000; opacity: 0.25; shader: flat; transparent: true">
+        </a-plane>
+        
+        <a-text value="116 KM/H" align="center" color="#ffffff" position="0 0.15 0.02" width="4"></a-text>
 
-    <!-- Interface HUD : Positionnée à 80cm devant, légèrement inclinée pour une vue naturelle -->
-    <a-entity position="0 1.5 -0.8" rotation="0 0 0">
-      
-      <!-- Panneau de fond (très léger, style "visière" ou HUD futuriste) -->
-      <a-plane width="1.4" height="0.6" 
-               material="color: #000; opacity: 0.15; shader: flat; transparent: true">
-      </a-plane>
-      
-      <!-- --- HUD ÉLÉMENTS --- -->
-      
-      <!-- VITESSE (Centrale et grande) -->
-      <a-text value="116 KM/H" align="center" color="#ffffff" position="0 0.15 0.05" width="4.5" font="dejavu"></a-text>
+        <a-text value="RADAR: AUCUN" align="left" color="#ff477e" position="-0.5 -0.1 0.02" width="1.5"></a-text>
 
-      <!-- RADAR (Côté gauche) -->
-      <a-entity position="-0.45 -0.15 0.05">
-        <a-text value="RADAR" align="center" color="#ff477e" position="0 0.05 0" width="1.5"></a-text>
-        <a-text value="AUCUN" align="center" color="#dddddd" position="0 -0.05 0" width="1.2"></a-text>
+        <a-text value="GPS: TOUT DROIT" align="right" color="#3FE0CE" position="0.5 -0.1 0.02" width="1.5"></a-text>
+
+        <a-plane width="1.2" height="0.005" color="#ffffff" opacity="0.4" position="0 -0.22 0.02"></a-plane>
       </a-entity>
 
-      <!-- GPS (Côté droit) -->
-      <a-entity position="0.45 -0.15 0.05">
-        <a-text value="GPS" align="center" color="#3FE0CE" position="0 0.05 0" width="1.5"></a-text>
-        <a-text value="TOUT DROIT" align="center" color="#dddddd" position="0 -0.05 0" width="1.2"></a-text>
-      </a-entity>
-
-      <!-- Ligne de séparation basse pour un look "professionnel" -->
-      <a-plane width="1.2" height="0.01" color="#ffffff" opacity="0.3" position="0 -0.25 0.05"></a-plane>
-      
     </a-entity>
 
   </a-scene>
