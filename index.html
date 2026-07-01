@@ -2,54 +2,49 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>HUD Moto AR - Passthrough</title>
+  <title>HUD Moto AR - Réalité Augmentée</title>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
 <body>
 
   <a-scene 
     background="transparent: true" 
-    renderer="colorManagement: true; alpha: true; foveatedRendering: true"
+    renderer="colorManagement: true; alpha: true"
     webxr="optionalFeatures: hit-test, local-floor, passthrough">
 
     <a-entity camera look-controls position="0 1.6 0">
-      
-      <a-entity position="0 0 -0.8">
-        
-        <a-plane width="1.2" height="0.6" 
-                 material="color: #000; opacity: 0.4; shader: flat; transparent: true">
-        </a-plane>
-        
-        <a-text value="VITESSE: 116 km/h" align="center" color="#ffffff" position="0 0.15 0.02" width="2"></a-text>
-        <a-text value="ETAT: CONNECTE" align="center" color="#3FE0CE" position="0 -0.1 0.02" width="2"></a-text>
-
-        <a-entity id="btn-action" class="clickable" position="0 -0.3 0.02">
-          <a-plane width="0.4" height="0.12" color="#3a86ff" opacity="0.9"></a-plane>
-          <a-text value="DEMARRER" align="center" color="white" position="0 0 0.01" width="1"></a-text>
-        </a-entity>
-      </a-entity>
-
+      <a-entity laser-controls="hand: right" raycaster="objects: .clickable; showLine: true"></a-entity>
       <a-cursor raycaster="objects: .clickable" color="#ffffff" fuse="false"></a-cursor>
     </a-entity>
+
+    <a-entity position="0 1.5 -0.8">
+      
+      <a-plane width="1.2" height="0.6" 
+               material="color: #000; opacity: 0.4; shader: flat; transparent: true">
+      </a-plane>
+      
+      <a-text value="VITESSE: 116 km/h" align="center" color="#ffffff" position="0 0.15 0.02" width="2"></a-text>
+      <a-text value="ETAT: CONNECTE" align="center" color="#3FE0CE" position="0 -0.1 0.02" width="2"></a-text>
+
+      <a-entity id="btn-action" class="clickable" position="0 -0.3 0.02">
+        <a-plane width="0.5" height="0.15" color="#3a86ff" opacity="0.9"></a-plane>
+        <a-text value="DEMARRER" align="center" color="white" position="0 0 0.01" width="1.2"></a-text>
+      </a-entity>
+    </a-entity>
+
   </a-scene>
 
   <script>
-    // Script pour forcer l'activation du Passthrough au clic sur "Entrer en VR"
-    document.querySelector('a-scene').addEventListener('enter-vr', function() {
-      const scene = document.querySelector('a-scene');
-      if (scene.is('vr-mode')) {
-        const xrSession = scene.xrSession;
-        if (xrSession && xrSession.requestReferenceSpace) {
-          // Si le navigateur supporte le passthrough, on active la couche
-          console.log("Mode VR activé, tentative d'affichage du monde réel...");
-        }
-      }
-    });
-
-    // Animation du bouton
+    // Animation au clic
     document.querySelector('#btn-action').addEventListener('click', function() {
-      this.querySelector('a-plane').setAttribute('color', '#2ecc71');
+      const plane = this.querySelector('a-plane');
+      plane.setAttribute('color', '#2ecc71');
       console.log("Interface démarrée !");
+      
+      // Retour à la couleur initiale après 500ms
+      setTimeout(() => {
+        plane.setAttribute('color', '#3a86ff');
+      }, 500);
     });
   </script>
 </body>
