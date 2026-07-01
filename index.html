@@ -1,139 +1,252 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>HUD Moto VR - Photoréaliste Prototype</title>
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <style>
-    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    #banner {
-      position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-      background: rgba(11, 19, 26, 0.8); color: #3FE0CE;
-      padding: 10px 20px; border-radius: 20px; font-size: 14px; z-index: 999;
-      text-transform: uppercase; letter-spacing: 1px; font-weight: bold;
-      backdrop-filter: blur(4px);
-    }
-  </style>
-</head>
-<body>
-
-<div id="banner">HUD Connecté - Mode Conduite</div>
-
-<a-scene fog="type: exponential; color: #a9d6f0; density: 0.025" renderer="antialias: true; colorManagement: true;">
-
-  <a-assets>
-    <a-mixin id="hud-bg" material="color: #6C757D; opacity: 0.6; transparent: true; shader: flat"></a-mixin>
-    
-    <img id="dangerGradL" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='0%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF0000' stop-opacity='0.8'/><stop offset='50%25' stop-color='%23FF0000' stop-opacity='0.3'/><stop offset='100%25' stop-color='%23FF0000' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
-    <img id="dangerGradR" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='100%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF0000' stop-opacity='0.8'/><stop offset='50%25' stop-color='%23FF0000' stop-opacity='0.3'/><stop offset='100%25' stop-color='%23FF0000' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
-    
-    </a-assets>
-
-  <a-sky color="#8FD3F4"></a-sky>
-  <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-  <a-light type="directional" color="#ffffff" intensity="0.8" position="-1 2 1" castShadow="true"></a-light>
-
-  <a-entity id="road-system">
-    <a-plane rotation="-90 0 0" width="12" height="400" position="0 0 -190" material="color: #2b2b2b; roughness: 0.8"></a-plane>
-    <a-entity id="lane-lines"></a-entity>
-  </a-entity>
-
-  <a-entity id="target-car" position="0 0 -20">
-    <a-box width="1.9" height="1.2" depth="4.5" position="0 0.6 0" material="color: #C9CDD3; metalness: 0.8; roughness: 0.2"></a-box>
-    <a-box id="brake-lights" width="1.8" height="0.1" depth="0.1" position="0 0.8 -2.25" material="color: #FF0000; emissive: #FF0000; emissiveIntensity: 0.2"></a-box>
-  </a-entity>
-
-  <a-camera position="0 1.6 0">
-    
-    <a-entity position="-0.7 -0.4 -1" rotation="0 5 0">
-      <a-plane width="0.6" height="0.25" mixin="hud-bg" position="0 0 0" radius="0.05"></a-plane>
-      
-      <a-circle radius="0.08" position="-0.18 0 0.01" material="color: #ffffff; shader: flat"></a-circle>
-      <a-circle radius="0.08" position="-0.18 0 0.005" material="color: #FF3B30; shader: flat" side="double" geometry="primitive:ring; radiusInner:0.065; radiusOuter:0.08"></a-circle>
-      <a-text value="110" align="center" color="#FF3B30" width="1.8" position="-0.18 0 0.02" font="kelsonsans" fontImage=""></a-text>
-      
-      <a-text value="116" align="center" color="#FFA500" width="4.5" position="0.1 0 0.01" font="roboto"></a-text>
-      <a-text value="km/h" align="center" color="#3FE0CE" width="1.2" position="0.28 -0.05 0.01"></a-text>
-    </a-entity>
-
-    <a-entity position="0 0.5 -1">
-      <a-plane width="0.4" height="0.12" mixin="hud-bg" position="0 0 0"></a-plane>
-      <a-text value="^ 2 km" align="center" color="#3FE0CE" width="1.5" position="0 0 0.01"></a-text>
-    </a-entity>
-
-    <a-entity position="0.7 -0.4 -1" rotation="0 -5 0">
-      <a-circle radius="0.15" material="color: #111; opacity: 0.8; shader: flat"></a-circle>
-      <a-text value="3 detectes" align="center" color="#3FE0CE" width="1.2" position="0 -0.18 0.01"></a-text>
-      <a-circle radius="0.01" color="#FF3B30" position="0.05 0.05 0.01"></a-circle>
-      <a-circle radius="0.01" color="#FFA500" position="-0.08 -0.02 0.01"></a-circle>
-    </a-entity>
-
-    <a-image id="danger-left" src="#dangerGradL" position="-1.2 0 -1" width="1" height="2.5" material="transparent: true; opacity: 0" depth-test="false"></a-image>
-    <a-image id="danger-right" src="#dangerGradR" position="1.2 0 -1" width="1" height="2.5" material="transparent: true; opacity: 0" depth-test="false"></a-image>
-
-  </a-camera>
-
-</a-scene>
+<meta charset="utf-8">
+<title>Démo POV VR - HUD conducteur (maquette)</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  #banner {
+    position: fixed; top: 10px; left: 10px; right: 10px;
+    background: rgba(0,0,0,.75); color: #fff;
+    padding: 10px 16px; border-radius: 8px; font-size: 13px; z-index: 999;
+    text-align: center;
+  }
+</style>
 
 <script>
-  // Animation de la route (Lignes pointillées)
-  AFRAME.registerComponent('road-animator', {
+  // Fonctions utilitaires
+  function hexToRgb(hex) {
+    const v = parseInt(hex.replace('#', ''), 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  }
+  
+  function lerpColor(hexA, hexB, t) {
+    const a = hexToRgb(hexA), b = hexToRgb(hexB);
+    const r = Math.round(a[0] + (b[0] - a[0]) * t);
+    const g = Math.round(a[1] + (b[1] - a[1]) * t);
+    const bl = Math.round(a[2] + (b[2] - a[2]) * t);
+    return `rgb(${r},${g},${bl})`;
+  }
+
+  // 1. Composant : Défilement de la route
+  AFRAME.registerComponent('scroll-road', {
     init: function () {
+      this.speed = 6;
       this.lines = [];
-      const container = document.querySelector('#lane-lines');
+      this.scenery = [];
+      const lineContainer = document.querySelector('#lane-lines');
+      const sceneryContainer = document.querySelector('#scenery');
+
       for (let i = 0; i < 20; i++) {
         const line = document.createElement('a-plane');
-        line.setAttribute('width', 0.2);
-        line.setAttribute('height', 2);
+        line.setAttribute('width', 0.25);
+        line.setAttribute('height', 3);
         line.setAttribute('rotation', '-90 0 0');
         line.setAttribute('position', `0 0.01 ${-i * 10}`);
-        line.setAttribute('material', 'color: #ffffff; shader: flat');
-        container.appendChild(line);
+        line.setAttribute('material', 'color:#ffffff; shader:flat');
+        lineContainer.appendChild(line);
         this.lines.push(line);
+      }
+
+      for (let i = 0; i < 25; i++) {
+        const side = i % 2 === 0 ? -7.5 : 7.5;
+        const pole = document.createElement('a-box');
+        pole.setAttribute('width', 0.15);
+        pole.setAttribute('height', 1.4);
+        pole.setAttribute('depth', 0.15);
+        pole.setAttribute('position', `${side} 0.7 ${-i * 16}`);
+        pole.setAttribute('material', 'color:#2a2f35; shader:flat');
+        sceneryContainer.appendChild(pole);
+        this.scenery.push(pole);
+      }
+
+      this.trees = [];
+      const forestContainer = document.querySelector('#forest');
+      const rowsPerSide = 45;
+      
+      for (let i = 0; i < rowsPerSide; i++) {
+        [-1, 1].forEach(side => {
+          const baseX = side * (9 + Math.random() * 10);
+          const z = -i * 9 - Math.random() * 4;
+          const h = 3.2 + Math.random() * 3.4;
+          const trunkH = h * 0.32;
+          const barkShade = 25 + Math.floor(Math.random() * 12);
+
+          const tree = document.createElement('a-entity');
+          tree.setAttribute('position', `${baseX} 0 ${z}`);
+          tree.setAttribute('rotation', `0 ${Math.random() * 360} 0`);
+
+          const trunk = document.createElement('a-cylinder');
+          trunk.setAttribute('radius-bottom', 0.16);
+          trunk.setAttribute('radius-top', 0.09);
+          trunk.setAttribute('height', trunkH);
+          trunk.setAttribute('position', `0 ${trunkH / 2} 0`);
+          trunk.setAttribute('material', `shader:standard; color:rgb(${barkShade+30},${barkShade+18},${barkShade}); roughness:0.95`);
+          tree.appendChild(trunk);
+
+          for (let b = 0; b < 2; b++) {
+            const branch = document.createElement('a-cylinder');
+            branch.setAttribute('radius', 0.03);
+            branch.setAttribute('height', 0.5);
+            const bx = (Math.random() - 0.5) * 0.5;
+            const by = trunkH * (0.55 + Math.random() * 0.3);
+            branch.setAttribute('position', `${bx} ${by} 0`);
+            branch.setAttribute('rotation', `0 0 ${45 + Math.random()*30 * (b===0?1:-1)}`);
+            branch.setAttribute('material', 'shader:standard; color:#3b2a1e; roughness:0.9');
+            tree.appendChild(branch);
+          }
+
+          const green = 55 + Math.floor(Math.random() * 45);
+          const layers = 3;
+          for (let l = 0; l < layers; l++) {
+            const foliage = document.createElement('a-cone');
+            const layerH = (h - trunkH) * 0.55;
+            const yBase = trunkH + l * layerH * 0.62;
+            foliage.setAttribute('radius-bottom', (1.15 - l * 0.28) + Math.random() * 0.3);
+            foliage.setAttribute('radius-top', 0.02);
+            foliage.setAttribute('height', layerH);
+            foliage.setAttribute('position', `0 ${yBase + layerH/2} 0`);
+            const shade = green - l * 12;
+            foliage.setAttribute('material', `shader:standard; color:rgb(18,${shade},32); roughness:0.9`);
+            tree.appendChild(foliage);
+          }
+
+          forestContainer.appendChild(tree);
+          this.trees.push(tree);
+        });
       }
     },
     tick: function (time, delta) {
-      const speed = 25; // Sensation de grande vitesse (116 km/h)
-      const dz = (speed * delta) / 1000;
+      const dz = (this.speed * delta) / 1000;
+      
       this.lines.forEach(line => {
         let z = parseFloat(line.getAttribute('position').z) + dz;
         if (z > 5) z -= 200;
         line.setAttribute('position', `0 0.01 ${z}`);
       });
+      
+      this.scenery.forEach(pole => {
+        let pos = pole.getAttribute('position');
+        let z = pos.z + dz;
+        if (z > 5) z -= 400;
+        pole.setAttribute('position', `${pos.x} ${pos.y} ${z}`);
+      });
+      
+      this.trees.forEach(tree => {
+        let pos = tree.getAttribute('position');
+        let z = pos.z + dz;
+        if (z > 5) z -= 405;
+        tree.setAttribute('position', `${pos.x} ${pos.y} ${z}`);
+      });
     }
   });
-  document.querySelector('a-scene').setAttribute('road-animator', '');
 
-  // ==========================================
-  // SYSTEME D'ALERTE DANGER (ANGLE MORT)
-  // ==========================================
-  const dangerLeft = document.querySelector('#danger-left');
-  const dangerRight = document.querySelector('#danger-right');
-  
-  // Fonction pour déclencher un avertissement visuel
-  function triggerBlindSpotWarning(side, duration = 3000) {
-    const target = side === 'left' ? dangerLeft : dangerRight;
-    
-    // Animation d'apparition (Pulsation)
-    target.setAttribute('animation__fadein', 'property: material.opacity; from: 0; to: 0.85; dur: 300; dir: alternate; loop: 4; easing: easeInOutSine');
-    
-    // Disparition après la durée
-    setTimeout(() => {
-      target.removeAttribute('animation__fadein');
-      target.setAttribute('animation__fadeout', 'property: material.opacity; to: 0; dur: 500; easing: easeOutQuad');
-    }, duration);
-  }
+  // 2. Composant : Cycle Jour/Nuit (réécrit pour cibler les éléments après l'init)
+  AFRAME.registerComponent('day-cycle-driver', {
+    init: function () {
+      this.dayCycle = {
+        cycleLength: 45, sunsetWidth: 0.09,
+        skyDay: '#8FD3F4', skySunset: '#FF8A4C',
+        fogDay: '#a9d6f0', fogSunset: '#ffb37a',
+        ambientDay: '#cfe6ff', ambientSunset: '#ffb98a',
+        sunColorDay: '#ffffff', sunColorSunset: '#ff7a3d'
+      };
+      // Récupération des éléments une fois qu'ils existent
+      this.sky = document.querySelector('#sky');
+      this.ambientLight = document.querySelector('#ambient-light');
+      this.sunLight = document.querySelector('#sun-light');
+      this.sun = document.querySelector('#sun');
+      this.sunHalo = document.querySelector('#sun-halo');
+    },
+    tick: function (time) { 
+      const phase = (time / 1000 % this.dayCycle.cycleLength) / this.dayCycle.cycleLength;
+      const dist = phase - 0.5;
+      const sunsetFactor = Math.exp(-(dist * dist) / (2 * this.dayCycle.sunsetWidth * this.dayCycle.sunsetWidth));
 
-  // Simulation d'une voiture qui te dépasse par la droite toutes les 8 secondes
-  setInterval(() => {
-    triggerBlindSpotWarning('right', 2500);
-  }, 8000);
+      this.sky.setAttribute('material', 'color', lerpColor(this.dayCycle.skyDay, this.dayCycle.skySunset, sunsetFactor));
+      this.el.setAttribute('fog', 'color', lerpColor(this.dayCycle.fogDay, this.dayCycle.fogSunset, sunsetFactor));
 
-  // Simulation d'une voiture par la gauche toutes les 14 secondes
-  setInterval(() => {
-    triggerBlindSpotWarning('left', 2000);
-  }, 14000);
+      this.ambientLight.setAttribute('color', lerpColor(this.dayCycle.ambientDay, this.dayCycle.ambientSunset, sunsetFactor));
+      this.ambientLight.setAttribute('intensity', 0.9 - sunsetFactor * 0.35);
+      
+      this.sunLight.setAttribute('color', lerpColor(this.dayCycle.sunColorDay, this.dayCycle.sunColorSunset, sunsetFactor));
+      this.sunLight.setAttribute('intensity', 1.1 - sunsetFactor * 0.4);
 
+      const elevation = 15 + (1 - sunsetFactor) * 45;
+      this.sun.setAttribute('position', `0 ${elevation} -140`);
+      this.sunHalo.setAttribute('position', `0 ${elevation} -140`);
+      
+      const sunTint = lerpColor('#fff6dc', '#ff5a2e', sunsetFactor);
+      this.sun.setAttribute('material', 'color', sunTint);
+      this.sun.setAttribute('material', 'emissive', sunTint);
+      this.sunLight.setAttribute('position', `0 ${elevation * 0.2} -1`);
+    }
+  });
+
+  // 3. Composant : Rotation du radar
+  AFRAME.registerComponent('radar-spin', {
+    tick: function (time) {
+      this.el.setAttribute('rotation', `0 0 ${-(time / 8) % 360}`);
+    }
+  });
+
+  // 4. Composant : Mouvement de la voiture devant
+  AFRAME.registerComponent('ev-drive', {
+    init: function () {
+      this.baseZ = -16;
+      this.baseX = 0.6;
+    },
+    tick: function (time) {
+      const t = time / 1000;
+      const sway = Math.sin(t * 0.9) * 0.1;
+      const bob = Math.sin(t * 4) * 0.012;
+      const distanceDrift = Math.sin(t * 0.22) * 3;
+      this.el.setAttribute('position', `${this.baseX + sway} ${bob} ${this.baseZ + distanceDrift}`);
+      this.el.setAttribute('rotation', `0 ${sway * 5} 0`);
+    }
+  });
+
+  // 5. Composant : Clignotement générique (utilisé pour le HUD et les phares)
+  AFRAME.registerComponent('blinker', {
+    schema: { speed: {type: 'number', default: 650} },
+    init: function() {
+      this.visible = true;
+      this.timer = setInterval(() => {
+        this.visible = !this.visible;
+        this.el.setAttribute('visible', this.visible);
+      }, this.data.speed);
+    },
+    remove: function() { clearInterval(this.timer); }
+  });
+
+  // 6. Composant : Scintillement des feux arrière
+  AFRAME.registerComponent('taillight-flicker', {
+    init: function() {
+      this.timer = setInterval(() => {
+        const cur = this.el.getAttribute('material').emissiveIntensity;
+        this.el.setAttribute('material', 'emissiveIntensity', cur > 0.4 ? 0.3 : 1);
+      }, 550);
+    },
+    remove: function() { clearInterval(this.timer); }
+  });
 </script>
-</body>
-</html>
+</head>
+<body>
+
+<div id="banner">🎬 Démo visuelle / maquette — non conçue pour être utilisée en conduisant</div>
+
+<a-scene scroll-road day-cycle-driver fog="type: exponential; color: #a9d6f0; density: 0.035">
+
+  <a-assets>
+    <a-mixin id="hudpanel" material="color:#0B131A; opacity:0.55; shader:flat; side:double"></a-mixin>
+    <img id="dangerGradL" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='0%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
+    <img id="dangerGradR" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='700'><defs><radialGradient id='g' cx='100%25' cy='50%25' r='85%25'><stop offset='0%25' stop-color='%23FF2A2A' stop-opacity='0.95'/><stop offset='50%25' stop-color='%23FF2A2A' stop-opacity='0.4'/><stop offset='100%25' stop-color='%23FF2A2A' stop-opacity='0'/></radialGradient></defs><rect width='300' height='700' fill='url(%23g)'/></svg>">
+  </a-assets>
+
+  <a-sky id="sky" color="#8FD3F4"></a-sky>
+
+  <a-entity id="sun-rig">
+    <a-sphere id="sun" radius="5" position="0 30 -140"
+      material="shader:flat; color:#fff6dc; emissive:#fff6dc; emissiveIntensity:1"></a-sphere>
+    <a-sphere id="sun-halo" radius="8" position
